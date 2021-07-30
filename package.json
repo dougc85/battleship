@@ -1,0 +1,19 @@
+{
+  "name": "battleship",
+  "version": "1.0.0",
+  "description": "A battleship game, made to practice testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dougc85/battleship.git"
+  },
+  "author": "Doug Carter",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dougc85/battleship/issues"
+  },
+  "homepage": "https://github.com/dougc85/battleship#readme"
+}

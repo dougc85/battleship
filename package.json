@@ -2,9 +2,10 @@
   "name": "battleship",
   "version": "1.0.0",
   "description": "A battleship game, made to practice testing",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/dougc85/battleship/issues"
   },
-  "homepage": "https://github.com/dougc85/battleship#readme"
+  "homepage": "https://github.com/dougc85/battleship#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.14.8",
+    "jest": "^27.0.6",
+    "webpack": "^5.47.1",
+    "webpack-cli": "^4.7.2"
+  }
 }

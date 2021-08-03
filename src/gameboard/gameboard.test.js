@@ -79,6 +79,14 @@ gameboard2.handleAttack(0, 4);
 gameboard2.handleAttack(0, 5);
 gameboard2.handleAttack(0, 8);
 
+test('can attack - yes', () => {
+  expect(gameboard2.canAttack(9, 9)).toBe(true);
+})
+
+test('can attack - no', () => {
+  expect(gameboard2.canAttack(0, 3)).toBe(false);
+})
+
 test('sunk ship', () => {
   expect(gameboard2.ships.destroyer.sunk).toBe(true);
 });

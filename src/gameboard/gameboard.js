@@ -97,6 +97,15 @@ const gameboardFactory = () => {
     }
   };
 
+  const canAttack = (row, column) => {
+    for (const shot of shotsFired) {
+      if (row === shot[0] && column === shot[1]) {
+        return false
+      }
+    }
+    return true;
+  }
+
   //takes x and y coordinates
   //checks if hit/miss,
   //
@@ -127,7 +136,7 @@ const gameboardFactory = () => {
     return true;
   }
 
-  return { board, place, canPlaceHorizontal, canPlaceVertical, ships, handleAttack, hitInfoOrMiss, shotsFired, allSunk };
+  return { board, place, canPlaceHorizontal, canPlaceVertical, ships, handleAttack, hitInfoOrMiss, shotsFired, allSunk, canAttack };
 }
 
 export default gameboardFactory;

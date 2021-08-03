@@ -3,7 +3,7 @@ import gameboardFactory from "./gameboard";
 const gameboard1 = gameboardFactory();
 
 test('gameboard setup', () => {
-  expect(gameboard1.board[7][5].status).toBe(undefined);
+  expect(gameboard1.board[7][5].shipName).toBe(undefined);
 });
 
 test('can place horiz edge - yes', () => {
@@ -61,6 +61,52 @@ test('can place vert not edge related - yes', () => {
 test('can place vert not edge related - no', () => {
   expect(gameboard2.canPlaceVertical(0, 1, 6)).toBe(false);
 });
+
+test('miss', () => {
+  expect(gameboard2.hitInfoOrMiss(0, 8)).toBe('miss');
+});
+
+test('hit - ship name', () => {
+  expect(gameboard2.hitInfoOrMiss(7, 1).shipName).toBe('carrier');
+});
+
+test('hit - ship position', () => {
+  expect(gameboard2.hitInfoOrMiss(0, 4).shipPos).toBe(1);
+});
+
+gameboard2.handleAttack(0, 3);
+gameboard2.handleAttack(0, 4);
+gameboard2.handleAttack(0, 5);
+gameboard2.handleAttack(0, 8);
+
+test('sunk ship', () => {
+  expect(gameboard2.ships.destroyer.sunk).toBe(true);
+});
+
+gameboard2.handleAttack(5, 1);
+gameboard2.handleAttack(6, 1);
+gameboard2.handleAttack(7, 1);
+gameboard2.handleAttack(8, 1);
+gameboard2.handleAttack(9, 1);
+
+test('shots fired 1', () => {
+  expect(gameboard2.shotsFired).toEqual([
+    [0, 3, 'hit'],
+    [0, 4, 'hit'],
+    [0, 5, 'hit'],
+    [0, 8, 'miss'],
+    [5, 1, 'hit'],
+    [6, 1, 'hit'],
+    [7, 1, 'hit'],
+    [8, 1, 'hit'],
+    [9, 1, 'hit'],
+  ]);
+});
+
+test('all sunk - yes', () => {
+  expect(gameboard2.allSunk()).toBe(true);
+});
+
 
 
 

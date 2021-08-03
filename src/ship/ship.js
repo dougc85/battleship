@@ -1,6 +1,5 @@
 const shipFactory = (length) => {
   const hitArray = Array(length).fill(0);
-  let sunk = false;
 
   const hit = (position) => {
     hitArray[position] = 1;

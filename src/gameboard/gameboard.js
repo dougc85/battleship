@@ -90,6 +90,7 @@ const gameboardFactory = () => {
   };
 
   const hitInfoOrMiss = (row, column) => {
+    console.log(board);
     if (board[row][column].shipName === undefined) {
       return 'miss';
     } else {
@@ -111,6 +112,9 @@ const gameboardFactory = () => {
   //
   //Records misses/sends hit function to hit ships/
   const handleAttack = (row, column) => {
+    if (!canAttack(row, column)) {
+      throw new Error('Space already fired upon');
+    }
     const hitInfo = hitInfoOrMiss(row, column);
 
     if (hitInfo === 'miss') {

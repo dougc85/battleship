@@ -5,6 +5,7 @@ class DomStuff {
     computerGameboard,
     humanPlayer,
     computerPlayer,
+    checkWinner,
   ) {
     this.app = document.querySelector('.app');
 
@@ -12,6 +13,8 @@ class DomStuff {
     this.computerGameboard = computerGameboard;
     this.humanPlayer = humanPlayer;
     this.computerPlayer = computerPlayer;
+
+    this.checkWinner = checkWinner;
 
     this.orientation = 'horizontal';
     this.shipLength = 5;
@@ -66,7 +69,7 @@ class DomStuff {
 
       this.shipsToPlace = [
         ['patrolBoat', 2, `and finally, ${this.name}, the small but mighty patrol boat?`],
-        ['submarine', 3, `they'll never see it coming, the mighty submarine. where to?`],
+        ['submarine', 3, `they'll never see it coming, the wily submarine. where to?`],
         ['destroyer', 3, `place your destroyer VERY carefully, ${this.name}!`],
         ['battleship', 4, `toward which icy waters shall the battleship head?`],
         ['carrier', 5, `Cpt. ${this.name}, where would you like to place your carrier?`]
@@ -284,57 +287,21 @@ class DomStuff {
           }
         }
 
-
-
         square.addEventListener('click', () => {
           this.playRound(row, column);
-          // if (this.checkPlacementFunction(row, column, this.shipLength)) {
-          //   this.humanGameboard.place(row, column, this.shipName, this.orientation);
-
-          //   if (this.shipName === 'patrolBoat') {
-          //     this.renderGrid(container, instructions);
-
-          //     const rotateButton = document.querySelector('.rotate');
-
-          //     const startButton = document.createElement('button');
-          //     startButton.classList.add('start');
-          //     startButton.classList.add('button');
-          //     startButton.textContent = 'START GAME';
-          //     startButton.addEventListener('click', () => {
-          //       document.querySelector('.fleet-prep').remove();
-          //       this.renderGameplay();
-          //     });
-
-          //     rotateButton.insertAdjacentElement('afterend', startButton);
-          //     rotateButton.remove();
-
-          //     instructions.textContent = 'ready to play?';
-
-          //     while (container.firstChild) {
-          //       container.removeChild(container.lastChild);
-          //     }
-
-          //     for (let row = 0; row < 10; row++) {
-          //       for (let column = 0; column < 10; column++) {
-          //         let square = document.createElement('div');
-          //         square.setAttribute('class', 'square');
-          //         square.dataset.position = `${row}${column}`;
-
-          //         if (this.humanGameboard.board[row][column].shipName !== undefined) {
-          //           square.style.backgroundColor = this.alreadyPlacedColor;
-          //         }
-          //         container.appendChild(square);
-          //       }
-          //     }
-
-          //   } else {
-          //     this.selectNextShip();
-          //     instructions.textContent = this.shipPlacementCommand;
-          //     this.renderGrid(container, instructions);
-          //   }
-          // }
+          const winner = this.checkWinner(this.humanGameboard, this.computerGameboard);
+          if (winner === undefined) {
+            return
+          } else if (winner === 'computer') {
+            document.querySelector('.gameplay').remove();
+            this.renderComputerWins();
+          } else {
+            document.querySelector('.gameplay').remove();
+            this.renderHumanWins();
+          }
         });
 
+        //Add highliting when player moves cursor over CPU gameboard
         if (gameboard === this.computerGameboard) {
           square.addEventListener('mouseenter', (e) => {
             square.style.opacity = '.5';
@@ -343,31 +310,29 @@ class DomStuff {
             square.style.opacity = '1';
           });
         };
+
         container.appendChild(square);
       }
     }
   }
 
   playRound(row, column) {
-    this.humanPlayer.move(row, column);
-    const [rowCPU, columnCPU] = this.computerPlayer.move();
+    if (this.computerGameboard.canAttack(row, column)) {
+      this.humanPlayer.move(row, column);
+      const [rowCPU, columnCPU] = this.computerPlayer.move();
 
-    const humanGrid = document.querySelector('.human-grid');
-    const computerGrid = document.querySelector('.computer-grid');
+      const humanGrid = document.querySelector('.human-grid');
+      const computerGrid = document.querySelector('.computer-grid');
 
-    const shotByPlayer = computerGrid.querySelector(`[data-position='${row}${column}']`);
-    const shotByComputer = humanGrid.querySelector(`[data-position='${rowCPU}${columnCPU}']`);
+      const shotByPlayer = computerGrid.querySelector(`[data-position='${row}${column}']`);
+      const shotByComputer = humanGrid.querySelector(`[data-position='${rowCPU}${columnCPU}']`);
 
-    console.log(shotByPlayer, 'shot by player');
-    console.log(shotByComputer, 'shot by computer');
-
-    this.addIconToSquare(shotByComputer, this.humanGameboard.board[rowCPU][columnCPU].status);
-    this.addIconToSquare(shotByPlayer, this.computerGameboard.board[row][column].status);
-
+      this.addIconToSquare(shotByComputer, this.humanGameboard.board[rowCPU][columnCPU].status);
+      this.addIconToSquare(shotByPlayer, this.computerGameboard.board[row][column].status);
+    }
   }
 
   addIconToSquare(square, status) {
-    console.log(status, 'status');
     if (status === 'miss') {
       const missIcon = document.createElement('img');
       missIcon.classList.add('miss');
@@ -379,6 +344,15 @@ class DomStuff {
       hitIcon.src = "./explosion.png";
       square.append(hitIcon);
     }
+  }
+
+  renderComputerWins() {
+
+
+  }
+
+  renderHumanWins() {
+
   }
 }
 

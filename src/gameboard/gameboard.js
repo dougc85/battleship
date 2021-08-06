@@ -129,7 +129,7 @@ const gameboardFactory = () => {
       const currentShip = ships[shipName];
 
       currentShip.hit(shipPos);
-      if (currentShip.isSunk) currentShip.sunk = true;
+      if (currentShip.isSunk()) currentShip.sunk = true;
     }
   };
 

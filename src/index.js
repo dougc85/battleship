@@ -22,6 +22,7 @@ function startNewGame() {
     computerGameboard,
     humanPlayer,
     computerPlayer,
+    checkWinner,
   );
 }
 
@@ -47,6 +48,14 @@ function placeComputerShips(gameboard) {
           gameboard.canPlaceVertical;
     }
     gameboard.place(row, column, shipName, orientation);
+  }
+}
+
+function checkWinner(humanGameboard, computerGameboard) {
+  if (humanGameboard.allSunk()) {
+    return 'computer';
+  } else if (computerGameboard.allSunk()) {
+    return 'human';
   }
 }
 

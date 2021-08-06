@@ -97,6 +97,18 @@ gameboard2.handleAttack(7, 1);
 gameboard2.handleAttack(8, 1);
 gameboard2.handleAttack(9, 1);
 
+test('status change 1', () => {
+  expect(gameboard2.board[5][1].status).toBe('hit');
+})
+
+test('status change 2', () => {
+  expect(gameboard2.board[0][8].status).toBe('miss');
+})
+
+test('status change 3', () => {
+  expect(gameboard2.board[0][0].status).toBe(undefined);
+})
+
 test('shots fired 1', () => {
   expect(gameboard2.shotsFired).toEqual([
     [0, 3, 'hit'],

@@ -10,12 +10,44 @@ let humanGameboard = {};
 
 
 function startNewGame() {
-  computerPlayer = playerFactory('computer');
-  humanPlayer = playerFactory('human');
   computerGameboard = gameboardFactory();
   humanGameboard = gameboardFactory();
+  computerPlayer = playerFactory('computer', humanGameboard);
+  humanPlayer = playerFactory('human', computerGameboard);
+
+  placeComputerShips(computerGameboard);
+
   const domStuff = new DomStuff(
-    humanGameboard);
+    humanGameboard,
+    computerGameboard,
+    humanPlayer,
+    computerPlayer,
+  );
+}
+
+function placeComputerShips(gameboard) {
+  for (const shipName in gameboard.shipDetailsObject) {
+    const shipLength = gameboard.shipDetailsObject[shipName];
+    const orientations = ['horizontal', 'vertical'];
+    let orientation = orientations[Math.floor(Math.random() * 2)];
+    let row = Math.floor(Math.random() * 10);
+    let column = Math.floor(Math.random() * 10);
+    let checkPlacementFunction =
+      (orientation === 'horizontal') ?
+        gameboard.canPlaceHorizontal :
+        gameboard.canPlaceVertical;
+
+    while (!checkPlacementFunction(row, column, shipLength)) {
+      orientation = orientations[Math.floor(Math.random() * 2)];
+      row = Math.floor(Math.random() * 10);
+      column = Math.floor(Math.random() * 10);
+      checkPlacementFunction =
+        (orientation === 'horizontal') ?
+          gameboard.canPlaceHorizontal :
+          gameboard.canPlaceVertical;
+    }
+    gameboard.place(row, column, shipName, orientation);
+  }
 }
 
 startNewGame();

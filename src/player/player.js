@@ -1,4 +1,4 @@
-const playerFactory = (type, gameboard, humanMove) => {
+const playerFactory = (type, gameboard) => {
 
   let computerMove;
   const computerMoveList = [];
@@ -19,15 +19,18 @@ const playerFactory = (type, gameboard, humanMove) => {
 
       computerMoveList[row].splice(column, 1);
       return [row, column];
-    }
+    };
   }
 
-  const move = () => {
-    (type === "human") ?
-      gameboard.handleAttack(...humanMove()) :
-      gameboard.handleAttack(...computerMove())
-  };
-
+  const move = (row, column) => {
+    if (type === "human") {
+      gameboard.handleAttack(row, column);
+    } else {
+      const [rowCPU, columnCPU] = computerMove();
+      gameboard.handleAttack(rowCPU, columnCPU);
+      return [rowCPU, columnCPU];
+    };
+  }
   return { move, computerMove };
 }
 

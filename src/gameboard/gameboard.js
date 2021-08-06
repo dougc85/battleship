@@ -23,6 +23,7 @@ const gameboardFactory = () => {
       board[i][j] = {
         shipName: undefined,
         shipPos: undefined,
+        status: undefined,
       };
     }
   };
@@ -90,7 +91,6 @@ const gameboardFactory = () => {
   };
 
   const hitInfoOrMiss = (row, column) => {
-    console.log(board);
     if (board[row][column].shipName === undefined) {
       return 'miss';
     } else {
@@ -118,8 +118,10 @@ const gameboardFactory = () => {
     const hitInfo = hitInfoOrMiss(row, column);
 
     if (hitInfo === 'miss') {
+      board[row][column].status = 'miss';
       shotsFired.push([row, column, 'miss']);
     } else {
+      board[row][column].status = 'hit';
       shotsFired.push([row, column, 'hit']);
 
       const shipName = board[row][column].shipName;
@@ -140,7 +142,7 @@ const gameboardFactory = () => {
     return true;
   }
 
-  return { board, place, canPlaceHorizontal, canPlaceVertical, ships, handleAttack, hitInfoOrMiss, shotsFired, allSunk, canAttack };
+  return { board, place, canPlaceHorizontal, canPlaceVertical, ships, handleAttack, hitInfoOrMiss, shotsFired, allSunk, canAttack, shipDetailsObject };
 }
 
 export default gameboardFactory;

@@ -122,11 +122,12 @@ Fleet Prep
   display: flex;
   justify-content: space-around;
   margin-top: 5rem;
+  border: 1px solid red;
 }
 
 .gameplay-human,
 .gameplay-computer {
-
+  border: 1px solid white;
 }
 
 .human-heading,

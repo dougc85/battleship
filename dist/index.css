@@ -128,10 +128,6 @@ Fleet Prep
   position: relative;
 }
 
-.rotate {
-  
-}
-
 .gameplay-heading {
   min-width: 1100px;
 }
@@ -142,10 +138,6 @@ Fleet Prep
   margin-top: 5rem;
   align-items: center;
   min-width: 1100px;
-}
-
-.gameplay-human,
-.gameplay-computer {
 }
 
 .gameplay-instructions {

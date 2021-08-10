@@ -65,8 +65,6 @@ Title Page
     text-align: center;
     font-size: 2rem;
     margin-top: 4rem;
-    border: 2px solid rgb(133, 133, 133);
-    border-radius: 3px;
 }
 
 .captain-label {
@@ -79,6 +77,8 @@ Title Page
   text-align: center;
   padding: .5rem;
   opacity: .9;
+  border: 1px solid rgb(133, 133, 133);
+  border-radius: 3px;
 }
 
 /*

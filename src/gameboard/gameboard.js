@@ -99,9 +99,12 @@ const gameboardFactory = () => {
   };
 
   const canAttack = (row, column) => {
+    if ((row < 0 || row > 9 || column < 0 || column > 9)) {
+      return false;
+    }
     for (const shot of shotsFired) {
       if (row === shot[0] && column === shot[1]) {
-        return false
+        return false;
       }
     }
     return true;
@@ -121,15 +124,20 @@ const gameboardFactory = () => {
       board[row][column].status = 'miss';
       shotsFired.push([row, column, 'miss']);
     } else {
-      board[row][column].status = 'hit';
-      shotsFired.push([row, column, 'hit']);
-
       const shipName = board[row][column].shipName;
       const shipPos = board[row][column].shipPos;
       const currentShip = ships[shipName];
+      let sunkStatus = false;
 
+      board[row][column].status = 'hit';
       currentShip.hit(shipPos);
-      if (currentShip.isSunk()) currentShip.sunk = true;
+
+      if (currentShip.isSunk()) {
+        currentShip.sunk = true;
+        sunkStatus = true;
+      };
+
+      shotsFired.push([row, column, 'hit', shipName, sunkStatus]);
     }
   };
 

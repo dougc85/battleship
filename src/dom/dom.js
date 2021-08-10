@@ -443,12 +443,42 @@ class DomStuff {
   }
 
   renderComputerWins() {
+    const loseScreen = document.createElement('div');
+    loseScreen.classList.add('lose-screen');
 
+    const loseMessage = document.createElement('h2');
+    loseMessage.classList.add('lose-message');
+    loseMessage.textContent = 'Aw, nuts. You lost!'
+
+    const playAgain = document.createElement('a');
+    playAgain.href = './';
+    playAgain.textContent = 'PLAY AGAIN?'
+    playAgain.classList.add('button');
+    playAgain.classList.add('play-again');
+
+    loseScreen.append(loseMessage, playAgain);
+
+    this.app.append(loseScreen);
 
   }
 
   renderHumanWins() {
+    const winScreen = document.createElement('div');
+    winScreen.classList.add('win-screen');
 
+    const winMessage = document.createElement('h2');
+    winMessage.classList.add('win-message');
+    winMessage.textContent = `Captain ${this.name}, you are a god.`
+
+    const playAgain = document.createElement('a');
+    playAgain.classList.add('button');
+    playAgain.href = './';
+    playAgain.textContent = 'PLAY AGAIN?';
+    playAgain.classList.add('play-again');
+
+    winScreen.append(winMessage, playAgain);
+
+    this.app.append(winScreen);
   }
 }
 

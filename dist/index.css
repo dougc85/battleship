@@ -120,14 +120,19 @@ Fleet Prep
 
 .gameplay-main {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   margin-top: 5rem;
-  border: 1px solid red;
+  align-items: center;
 }
 
 .gameplay-human,
 .gameplay-computer {
-  border: 1px solid white;
+}
+
+.gameplay-instructions {
+  font-size: 2.5rem;
+  width: 25rem;
+  height: 100%;
 }
 
 .human-heading,
@@ -164,73 +169,139 @@ Fleet Prep
   left: -1px;
   top: 4px;
   height: 23px;
-  filter: brightness(2);
+  filter: brightness(1.6);
 }
 
 .ship-image {
   z-index: 100;
   position: absolute;
-  opacity: .9;
+  opacity: .8;
   pointer-events: none;
 }
 
-.carrier-large {
+.carrier-horizontal-large {
   left: .2rem;
   top: -.3rem;
   height: 5.4rem;
 }
 
-.battleship-large {
+.battleship-horizontal-large {
   left: .2rem;
   top: -.5rem;
   height: 5.7rem;
 }
 
-.destroyer-large {
+.destroyer-horizontal-large {
   left: -1.2rem;
   top: -.8rem;
   height: 5.7rem;
 }
 
-.submarine-large {
+.submarine-horizontal-large {
   left: 0rem;
   top: .2rem;
   height: 4.2rem;
 }
 
-.patrol-boat-large {
+.patrol-boat-horizontal-large {
   left: -1.2rem;
   top: -.2rem;
   height: 5.4rem;
 }
 
-.carrier-small {
+.carrier-horizontal-small {
   left: .8rem;
   top: 0rem;
   height: 3.8rem;
 }
 
-.battleship-small {
+.battleship-horizontal-small {
   left: .2rem;
   top: -.5rem;
   height: 4.5rem;
 }
 
-.destroyer-small {
+.destroyer-horizontal-small {
   left: -.8rem;
   top: -.7rem;
   height: 4.4rem;
 }
 
-.submarine-small {
+.submarine-horizontal-small {
   left: .1rem;
   top: .2rem;
   height: 3.3rem;
 }
 
-.patrol-boat-small {
+.patrol-boat-horizontal-small {
   left: -1.2rem;
   top: -.2rem;
+  height: 4.5rem;
+}
+
+.vertical {
+  transform: rotate(90deg);
+}
+
+.carrier-vertical-large {
+  left: -9.7rem;
+  top: 9rem;
+  height: 5.4rem;
+  transform: rotate(92deg);
+}
+
+.battleship-vertical-large {
+  left: -7.1rem;
+  top: 6.5rem;
+  height: 5.7rem;
+}
+
+.destroyer-vertical-large {
+  left: -5.6rem;
+  top: 4rem;
+  height: 5.7rem;
+}
+
+.submarine-vertical-large {
+  left: -4.6rem;
+  top: 4.6rem;
+  height: 4.2rem;
+}
+
+.patrol-boat-vertical-large {
+  left: -4.5rem;
+  top: 2.5rem;
+  height: 5.4rem;
+}
+
+.carrier-vertical-small {
+  left: -7.2rem;
+  top: 7rem;
+  height: 4rem;
+  transform: rotate(92deg);
+}
+
+.battleship-vertical-small {
+  left: -5.7rem;
+  top: 5rem;
+  height: 4.5rem;
+}
+
+.destroyer-vertical-small {
+  left: -4.4rem;
+  top: 3rem;
+  height: 4.4rem;
+}
+
+.submarine-vertical-small {
+  left: -3.7rem;
+  top: 3.5rem;
+  height: 3.3rem;
+}
+
+.patrol-boat-vertical-small {
+  left: -3.9rem;
+  top: 1.8rem;
   height: 4.5rem;
 }
 

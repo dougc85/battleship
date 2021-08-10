@@ -129,8 +129,6 @@ const gameboardFactory = () => {
       const currentShip = ships[shipName];
 
       currentShip.hit(shipPos);
-      console.log(currentShip);
-      console.log(currentShip.isSunk());
       if (currentShip.isSunk()) currentShip.sunk = true;
     }
   };

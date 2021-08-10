@@ -7,7 +7,6 @@ const shipFactory = (length) => {
   }
 
   const isSunk = () => {
-    console.log(hitArray, 'hitArray');
     for (let i = 0; i < hitArray.length; i++) {
       if (hitArray[i] === 0) {
         return false;

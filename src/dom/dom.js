@@ -142,7 +142,8 @@ class DomStuff {
         if (this.humanGameboard.board[row][column].shipName !== undefined) {
           square.style.backgroundColor = this.alreadyPlacedColor;
           if (this.humanGameboard.board[row][column].shipPos === 0) {
-            this.placeShipImage(square, this.humanGameboard.board[row][column].shipName, this.orientation, 'large');
+            const shipName = this.humanGameboard.board[row][column].shipName;
+            this.placeShipImage(square, shipName, this.humanGameboard.ships[shipName].orientation, 'large');
           }
         }
 
@@ -183,8 +184,9 @@ class DomStuff {
                   if (this.humanGameboard.board[row][column].shipName !== undefined) {
                     square.style.backgroundColor = this.alreadyPlacedColor;
                     if (this.humanGameboard.board[row][column].shipPos === 0) {
-                      this.placeShipImage(square, this.humanGameboard.board[row][column].shipName, this.orientation, 'large');
-                    };
+                      const shipName = this.humanGameboard.board[row][column].shipName;
+                      this.placeShipImage(square, shipName, this.humanGameboard.ships[shipName].orientation, 'large');
+                    }
                   }
                   container.appendChild(square);
                 }
@@ -244,19 +246,37 @@ class DomStuff {
     const shipImage = document.createElement('img');
     shipImage.classList.add('ship-image');
 
-    if (gridSize === 'large') {
-      (name === 'patrolBoat') ? shipImage.classList.add('patrol-boat-large') :
-        (name === 'submarine') ? shipImage.classList.add('submarine-large') :
-          (name === 'destroyer') ? shipImage.classList.add('destroyer-large') :
-            (name === 'battleship') ? shipImage.classList.add('battleship-large') :
-              shipImage.classList.add('carrier-large');
-    } else if (gridSize === 'small') {
-      (name === 'patrolBoat') ? shipImage.classList.add('patrol-boat-small') :
-        (name === 'submarine') ? shipImage.classList.add('submarine-small') :
-          (name === 'destroyer') ? shipImage.classList.add('destroyer-small') :
-            (name === 'battleship') ? shipImage.classList.add('battleship-small') :
-              shipImage.classList.add('carrier-small');
+    if (orientation === 'horizontal') {
+      if (gridSize === 'large') {
+        (name === 'patrolBoat') ? shipImage.classList.add('patrol-boat-horizontal-large') :
+          (name === 'submarine') ? shipImage.classList.add('submarine-horizontal-large') :
+            (name === 'destroyer') ? shipImage.classList.add('destroyer-horizontal-large') :
+              (name === 'battleship') ? shipImage.classList.add('battleship-horizontal-large') :
+                shipImage.classList.add('carrier-horizontal-large');
+      } else if (gridSize === 'small') {
+        (name === 'patrolBoat') ? shipImage.classList.add('patrol-boat-horizontal-small') :
+          (name === 'submarine') ? shipImage.classList.add('submarine-horizontal-small') :
+            (name === 'destroyer') ? shipImage.classList.add('destroyer-horizontal-small') :
+              (name === 'battleship') ? shipImage.classList.add('battleship-horizontal-small') :
+                shipImage.classList.add('carrier-horizontal-small');
+      }
+    } else if (orientation === 'vertical') {
+      if (gridSize === 'large') {
+        (name === 'patrolBoat') ? shipImage.classList.add('patrol-boat-vertical-large') :
+          (name === 'submarine') ? shipImage.classList.add('submarine-vertical-large') :
+            (name === 'destroyer') ? shipImage.classList.add('destroyer-vertical-large') :
+              (name === 'battleship') ? shipImage.classList.add('battleship-vertical-large') :
+                shipImage.classList.add('carrier-vertical-large');
+      } else if (gridSize === 'small') {
+        (name === 'patrolBoat') ? shipImage.classList.add('patrol-boat-vertical-small') :
+          (name === 'submarine') ? shipImage.classList.add('submarine-vertical-small') :
+            (name === 'destroyer') ? shipImage.classList.add('destroyer-vertical-small') :
+              (name === 'battleship') ? shipImage.classList.add('battleship-vertical-small') :
+                shipImage.classList.add('carrier-vertical-small');
+      }
+      shipImage.classList.add('vertical');
     }
+
     shipImage.src = `./battleships/${name}.png`;
     square.append(shipImage);
   }
@@ -293,9 +313,13 @@ class DomStuff {
     computerGrid.classList.add('computer-grid');
     this.renderGameplayGrid(computerGrid, this.computerGameboard);
 
+    const instructions = document.createElement('p');
+    instructions.classList.add('gameplay-instructions');
+    instructions.textContent = 'To play, fire upon (click on) the enemy gameboard to your right. But watch out! Every shot you fire will result in your getting fired upon as well! Try to beat the computer by being first to sink all 5 ships!';
+
     gameplayHuman.append(humanHeading, humanGrid);
     gameplayComputer.append(computerHeading, computerGrid);
-    gameplayMain.append(gameplayHuman, gameplayComputer);
+    gameplayMain.append(gameplayHuman, instructions, gameplayComputer);
     gameplay.append(gameplayHeading, gameplayMain);
     this.app.append(gameplay);
   }
@@ -312,24 +336,27 @@ class DomStuff {
           if (gameboard.board[row][column].shipName !== undefined) {
             square.style.backgroundColor = this.alreadyPlacedColor;
             if (this.humanGameboard.board[row][column].shipPos === 0) {
-              this.placeShipImage(square, this.humanGameboard.board[row][column].shipName, this.orientation, 'small');
+              const shipName = this.humanGameboard.board[row][column].shipName;
+              this.placeShipImage(square, shipName, this.humanGameboard.ships[shipName].orientation, 'small');
             }
           }
         }
 
-        square.addEventListener('click', () => {
-          this.playRound(row, column, square);
-          const winner = this.checkWinner(this.humanGameboard, this.computerGameboard);
-          if (winner === undefined) {
-            return
-          } else if (winner === 'computer') {
-            document.querySelector('.gameplay').remove();
-            this.renderComputerWins();
-          } else {
-            document.querySelector('.gameplay').remove();
-            this.renderHumanWins();
-          }
-        });
+        if (container.classList.contains('computer-grid')) {
+          square.addEventListener('click', () => {
+            this.playRound(row, column);
+            const winner = this.checkWinner(this.humanGameboard, this.computerGameboard);
+            if (winner === undefined) {
+              return
+            } else if (winner === 'computer') {
+              document.querySelector('.gameplay').remove();
+              this.renderComputerWins();
+            } else {
+              document.querySelector('.gameplay').remove();
+              this.renderHumanWins();
+            }
+          });
+        }
 
         //Add highliting when player moves cursor over CPU gameboard
         if (gameboard === this.computerGameboard) {
@@ -346,7 +373,7 @@ class DomStuff {
     }
   }
 
-  playRound(row, column, square) {
+  playRound(row, column) {
     if (this.computerGameboard.canAttack(row, column)) {
       this.humanPlayer.move(row, column);
       const [rowCPU, columnCPU] = this.computerPlayer.move();
@@ -357,15 +384,49 @@ class DomStuff {
       const shotByPlayer = computerGrid.querySelector(`[data-position='${row}${column}']`);
       const shotByComputer = humanGrid.querySelector(`[data-position='${rowCPU}${columnCPU}']`);
 
-      this.addIconToSquare(shotByComputer, this.humanGameboard.board[rowCPU][columnCPU].status);
-      this.addIconToSquare(shotByPlayer, this.computerGameboard.board[row][column].status);
+      const replacementSquare = document.createElement('div');
+      replacementSquare.setAttribute('class', 'square');
+      replacementSquare.dataset.position = `${row}${column}`;
 
-      const shipName = this.computerGameboard.board[row][column].shipName;
-      if (shipName && this.computerGameboard.ships[shipName].sunk) {
-        this.placeShipImage(square, shipName, this.computerGameboard.ships[shipName].orientation, 'small');
-      }
+      this.addIconToSquare(shotByComputer, this.humanGameboard.board[rowCPU][columnCPU].status);
+      this.addIconToSquare(replacementSquare, this.computerGameboard.board[row][column].status);
+
+      computerGrid.replaceChild(replacementSquare, shotByPlayer);
+
+      const computerShipName = this.computerGameboard.board[row][column].shipName;
+      const humanShipName = this.humanGameboard.board[rowCPU][columnCPU].shipName;
+
+      this.handleSunk('computer', computerShipName, computerGrid);
+      this.handleSunk('human', humanShipName, humanGrid);
+
     }
   };
+
+  handleSunk(player, shipName, grid) {
+    const gameboard = (player === 'computer') ?
+      this.computerGameboard :
+      this.humanGameboard;
+
+    if (shipName && gameboard.ships[shipName].sunk) {
+      const [originRow, originColumn] = gameboard.ships[shipName].origin;
+      const orientation = gameboard.ships[shipName].orientation;
+      const length = gameboard.ships[shipName].length;
+
+      if (orientation === 'horizontal') {
+        for (let i = 0; i < length; i++) {
+          grid.querySelector(`[data-position='${originRow}${originColumn + i}']`).style.backgroundColor = 'red';
+        }
+      } else {
+        for (let i = 0; i < length; i++) {
+          grid.querySelector(`[data-position='${originRow + i}${originColumn}']`).style.backgroundColor = 'red';
+        }
+      }
+      if (player === 'computer') {
+        const originSquare = grid.querySelector(`[data-position='${originRow}${originColumn}']`);
+        this.placeShipImage(originSquare, shipName, orientation, 'small');
+      }
+    }
+  }
 
   addIconToSquare(square, status) {
     if (status === 'miss') {
